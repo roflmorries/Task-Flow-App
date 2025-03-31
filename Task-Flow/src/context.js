@@ -24,3 +24,5 @@ export const AuthContext = createContext({});
 export const LanguageContext = createContext(LANGUAGES.EN.value);
 
 export const ThemeContext = createContext(THEMES.LIGHT);
+
+export const TodosContext = createContext({});

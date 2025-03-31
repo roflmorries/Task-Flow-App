@@ -5,6 +5,7 @@ import { Select, Switch } from 'antd'
 import styled from 'styled-components'
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Space } from 'antd';
+import { AuthContext } from '../context'
 
 const NavBar = styled.div`
     display: flex;
@@ -21,7 +22,7 @@ const NavSettings = styled.div`
 export default function Nav() {
     const defaultClassName = 'navigation';
     const [className, setClassName] = useState(defaultClassName);
-
+    const {users, isAuth} = useContext(AuthContext)
     const {theme, setTheme} = useContext(ThemeContext);
     const {language, setLanguage} = useContext(LanguageContext);
 
@@ -33,12 +34,22 @@ export default function Nav() {
         setTheme(checked ? THEMES.LIGHT : THEMES.DARK)
     }
 
+    const CurrentUser = isAuth ? users.find(user => user.isLoggedIn) : null;
+    console.log(isAuth)
+    console.log(CurrentUser)
+
 
   return (
     <NavBar className={className}>
         <div>
-        <Avatar size="large" icon={<UserOutlined />} />
-        Max Lalala
+            {CurrentUser && CurrentUser.avatar ? (
+                <Avatar size="large" src={CurrentUser.avatar} />
+            ) : (
+                <Avatar size="large" icon={<UserOutlined />} />
+            )}
+            <span style={{ marginLeft: 10 }}>
+                    {CurrentUser ? CurrentUser.login : 'Guest'}
+                </span>
         </div>
 
         <div>Task Flow</div>
