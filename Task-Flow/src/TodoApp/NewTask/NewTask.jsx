@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { TodosContext } from '../../context'
+import { TodosContext, LANGUAGES, LanguageContext } from '../../context'
 import { Button, Input, Select } from "antd";
 
 
@@ -8,6 +8,7 @@ export default function NewTask() {
     const {addNewTodo} = useContext(TodosContext);
     const [status, setStatus] = useState('Pending');
     const [priority, setPriority] = useState('Medium');
+    const { language } = useContext(LanguageContext);
 
     const handleSaveValue = () => {
         addNewTodo(value)
@@ -22,9 +23,9 @@ export default function NewTask() {
         onChange={value => setPriority(value)}
         placeholder='Priority'
         options={[
-          {value: 'High', label: 'High'},
-          {value: 'Medium', label: 'Medium'},
-          {value: 'Low', label: 'Low'}
+          {value: 'High', label: language === LANGUAGES.EN.value ? "High" : "Высокий"},
+          {value: 'Medium', label: language === LANGUAGES.EN.value ? "Medium" : "Средний"},
+          {value: 'Low', label: language === LANGUAGES.EN.value ? "Low" : "Низкий"}
         ]}>
         </Select>
         <Select
@@ -32,12 +33,12 @@ export default function NewTask() {
         onChange={value => setStatus(value)}
         placeholder='Status'
         options={[
-          {value: 'Pending', label: 'Pending'},
-          {value: 'In Progress', label: 'In Progress'},
-          {value: 'Completed', label: 'Completed'}
+          {value: 'Pending', label: language === LANGUAGES.EN.value ? "Pending" : "В ожидании"},
+          {value: 'In Progress', label: language === LANGUAGES.EN.value ? "In Progress" : "В процессе"},
+          {value: 'Completed', label: language === LANGUAGES.EN.value ? "Comoleted" : "Выполнено"}
         ]}>
         </Select>
-        <Button onClick={handleSaveValue}>Save</Button>
+        <Button onClick={handleSaveValue}>{language === LANGUAGES.EN.value ? "Save" : "Сохранить"}</Button>
       </form>
     </div>
   )

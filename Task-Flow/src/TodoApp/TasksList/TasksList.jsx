@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { TodosContext } from '../../context'
+import { TodosContext, LANGUAGES, LanguageContext } from '../../context'
 import { Button, Input, Select } from 'antd';
 import styled from 'styled-components';
 
@@ -22,6 +22,7 @@ export default function TasksList() {
   const [editValue, setEditValue] = useState('');
   const [editPriority, setEditPriority] = useState('');
   const [editStatus, setEditStatus] = useState('');
+  const { language } = useContext(LanguageContext);
 
   const handleEditTask = (index, todo) => {
     setEditingIndex(index);
@@ -59,29 +60,29 @@ export default function TasksList() {
             onChange={value => setEditPriority(value)} 
             placeholder="Priority"
           >
-            <Option value="High">High</Option>
-            <Option value="Medium">Medium</Option>
-            <Option value="Low">Low</Option>
+            <Option value="High">{language === LANGUAGES.EN.value ? "High" : "Высокий"}</Option>
+            <Option value="Medium">{language === LANGUAGES.EN.value ? "Medium" : "Средний"}</Option>
+            <Option value="Low">{language === LANGUAGES.EN.value ? "Low" : "Низкий"}</Option>
           </Select>
           <Select 
             value={editStatus} 
             onChange={value => setEditStatus(value)} 
             placeholder="Status"
           >
-            <Option value="Pending">Pending</Option>
-            <Option value="In Progress">In Progress</Option>
-            <Option value="Completed">Completed</Option>
+            <Option value="Pending">{language === LANGUAGES.EN.value ? "Pending" : "Ожидание"}</Option>
+            <Option value="In Progress">{language === LANGUAGES.EN.value ? "In Progress" : "В процессе"}</Option>
+            <Option value="Completed">{language === LANGUAGES.EN.value ? "Completed" : "Выполнено"}</Option>
           </Select>
           <Button onClick={() => handleSaveTask(index)}>Save</Button>
           <Button onClick={() => setEditingIndex(null)}>Cancel</Button>
         </>
       ) : (
         <>
-          <p><strong>Task:</strong> {todo.value}</p>
-          <p><strong>Priority:</strong> {todo.priority}</p>
-          <p><strong>Status:</strong> {todo.status}</p>
-          <Button onClick={() => handleEditTask(index, todo)}>Edit</Button>
-          <Button onClick={() => handleDeleteTask(index)}>Delete</Button>
+          <p><strong>{language === LANGUAGES.EN.value ? "Task" : "Задача"}:</strong> {todo.value}</p>
+          <p><strong>{language === LANGUAGES.EN.value ? "Priority" : "Приоритет"}:</strong> {todo.priority}</p>
+          <p><strong>{language === LANGUAGES.EN.value ? "Status" : "Статус"}:</strong> {todo.status}</p>
+          <Button onClick={() => handleEditTask(index, todo)}>{language === LANGUAGES.EN.value ? "Edit" : "Редактировать"}</Button>
+          <Button onClick={() => handleDeleteTask(index)}>{language === LANGUAGES.EN.value ? "Delete" : "Удалить"}</Button>
         </>
       )}
     </TaskContainer>

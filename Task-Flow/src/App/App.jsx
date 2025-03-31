@@ -7,15 +7,13 @@ import Content from '../Content/Content'
 
 function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-      <AuthProvider>
-        <Nav/>
+    <LanguageProvider>
+    <AuthProvider>
+      <Nav/>
 
-          <Content/>
-        </AuthProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+      <Content/>
+      </AuthProvider>
+    </LanguageProvider>
   )
 }
 
