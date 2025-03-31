@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { LanguageContext, LANGUAGES } from '../context'
 
-export default function LanguageProvider() {
+export default function LanguageProvider({children}) {
     const [language, setLanguage] = useState(LANGUAGES.EN.value);
 
     useEffect(() => {

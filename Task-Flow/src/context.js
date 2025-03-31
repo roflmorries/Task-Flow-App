@@ -1,15 +1,9 @@
 import { createContext } from "react";
-
-
-export const AuthContext = createContext({});
-
-export const LanguageContext = createContext(LANGUAGES.EN.value);
-
-export const ThemeContext = createContext(THEMES.LIGHT);
+import { MoonFilled } from '@ant-design/icons';
 
 
 export const LANGUAGES = {
-    UA: {
+    RU: {
         value: 'RU',
         text: 'Russian'
     },
@@ -21,5 +15,12 @@ export const LANGUAGES = {
 
 export const THEMES = {
     LIGHT: 'light',
-    DARK: 'dark'
+    DARK: 'dark',
 };
+
+
+export const AuthContext = createContext({});
+
+export const LanguageContext = createContext(LANGUAGES.EN.value);
+
+export const ThemeContext = createContext(THEMES.LIGHT);
