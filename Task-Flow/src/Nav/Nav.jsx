@@ -25,8 +25,6 @@ export default function Nav() {
     }
 
     const CurrentUser = isAuth ? users.find(user => user.isLoggedIn) : null;
-    console.log(isAuth)
-    console.log(CurrentUser)
 
     useEffect(() => {
         setClassName(`${defaultClassName} ${defaultClassName}-${theme}`);

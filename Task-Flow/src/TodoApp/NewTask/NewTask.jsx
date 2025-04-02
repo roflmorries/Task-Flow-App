@@ -13,8 +13,6 @@ export default function NewTask() {
     const [modal2Open, setModal2Open] = useState(false);
     const { theme } = useContext(ThemeContext);
 
-    console.log(value)
-
     const handleSaveValue = () => {
       if (!value || !priority || !status) {
         return;

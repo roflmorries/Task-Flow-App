@@ -6,7 +6,6 @@ import {StyledForm} from './LoginForm.styles'
 
 export default function LoginForm() {
     const { setIsAuth, users, setUsers } = useContext(AuthContext);
-    console.log(users)
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
