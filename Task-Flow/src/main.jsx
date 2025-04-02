@@ -3,7 +3,6 @@ import './index.css'
 import App from './App/App.jsx'
 import ThemeProvider from '../src/providers/ThemeProvider.jsx'
 import { ThemeContext } from './context';
-
 import { createGlobalStyle } from 'styled-components'
 import { useContext } from 'react';
 
@@ -13,11 +12,8 @@ const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
     margin: 0;
     padding: 0;
-    /* font-family: Arial, sans-serif; */
     transition: background-color 0.3s, color 0.3s;
-    /* max-height: 100vh; */
-    /* height: 100vh; Ограничиваем высоту страницы */
-    overflow: hidden; /* Скрываем скролл */
+    overflow: hidden;
   }
 `
 function Root() {
