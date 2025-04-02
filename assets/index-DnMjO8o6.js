@@ -911,10 +911,7 @@ margin-bottom: 50px;
     color: ${({theme:e})=>e==="light"?"#000000":"#ffffff"};
     margin: 0;
     padding: 0;
-    /* font-family: Arial, sans-serif; */
     transition: background-color 0.3s, color 0.3s;
-    /* max-height: 100vh; */
-    /* height: 100vh; Ограничиваем высоту страницы */
-    overflow: hidden; /* Скрываем скролл */
+    overflow: hidden;
   }
 `;function OD(){const{theme:e}=d.useContext(io);return we.jsxs(we.Fragment,{children:[we.jsx($D,{theme:e}),we.jsx(ED,{})]})}TO.createRoot(document.getElementById("root")).render(we.jsx(_O,{children:we.jsx(OD,{})}));
