@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { TodosContext, LANGUAGES, LanguageContext, ThemeContext } from '../../context'
-import { Button, Input, Select, Modal } from "antd";
+import { Button, Input } from "antd";
 import { ButtonWrapper, CustomSelect, CustomModal } from './NewTask.styles';
 
 
@@ -13,11 +13,17 @@ export default function NewTask() {
     const [modal2Open, setModal2Open] = useState(false);
     const { theme } = useContext(ThemeContext);
 
+    console.log(value)
+
     const handleSaveValue = () => {
-        addNewTodo(value);
+      if (!value || !priority || !status) {
+        return;
+      }
+        addNewTodo(value, priority, status);
         setValue('');
         setPriority(undefined);
         setStatus(undefined);
+        setModal2Open(false)
     }
   return (
     <>
@@ -27,7 +33,6 @@ export default function NewTask() {
       </Button>
     </ButtonWrapper>
       <CustomModal
-          // title={language === LANGUAGES.EN.value ? "Add new Task" : "Добавить задачу"}
           style={{ top: 20 }}
           centered
           open={modal2Open}
@@ -58,7 +63,7 @@ export default function NewTask() {
           options={[
             {value: 'Pending', label: language === LANGUAGES.EN.value ? "Pending" : "В ожидании"},
             {value: 'In Progress', label: language === LANGUAGES.EN.value ? "In Progress" : "В процессе"},
-            {value: 'Completed', label: language === LANGUAGES.EN.value ? "Comoleted" : "Выполнено"}
+            {value: 'Completed', label: language === LANGUAGES.EN.value ? "Completed" : "Выполнено"}
           ]}>
           </CustomSelect>
           </div>
