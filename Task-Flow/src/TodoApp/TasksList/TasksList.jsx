@@ -37,7 +37,13 @@ export default function TasksList() {
 
   return (
     <TasksContainer>
-      {todos.map((todo, index) => 
+      {
+      todos.length === 0 ? (
+        <p style={{ textAlign: 'center',position: 'absolute',top: '50%' , fontSize: '18px', color: theme === 'light' ? '#000' : '#fff' }}>
+          {language === LANGUAGES.EN.value ? "No tasks available. Add a new task!" : "Нет задач. Добавьте новую задачу!"}
+        </p>
+      ) : (
+      todos.map((todo, index) => 
       <TaskContainer theme={theme} key={index}>
       {editingIndex === index ? (
         <>
@@ -95,7 +101,7 @@ export default function TasksList() {
         </>
       )}
     </TaskContainer>
-      )}
+      ))}
     </TasksContainer>
     
   )
