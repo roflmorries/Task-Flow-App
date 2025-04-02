@@ -1,13 +1,4 @@
 import { createContext } from "react";
-import { MoonFilled } from '@ant-design/icons';
-import {
-    HomeOutlined,
-    LoadingOutlined,
-    SettingFilled,
-    SmileOutlined,
-    SyncOutlined,
-    MoonOutlined
-  } from '@ant-design/icons';
 
 
 export const LANGUAGES = {

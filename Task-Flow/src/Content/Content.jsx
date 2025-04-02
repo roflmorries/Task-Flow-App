@@ -1,18 +1,14 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../context'
-import LoginForm from '../LoginForm/LoginForm'
 import TodoApp from '../TodoApp/TodoApp'
 import Home from '../Home/Home'
-import styled from 'styled-components'
-
-const ContentWrapper = styled.div`
-  max-width: 1250px;
-  margin: 0 auto;
-  /* max-height: 90vh; */
-`
+import {UsergroupDeleteOutlined} from '@ant-design/icons';
+import { ThemeContext } from '../context'
+import { ContentWrapper, LogOutButton } from './Content.styles'
 
 export default function Content() {
     const { setIsAuth, isAuth, users, setUsers } = useContext(AuthContext);
+    const { theme } = useContext(ThemeContext);
 
     const handleLogOut = () => {
       const updatedUsers = users.map(user => ({ ...user, isLoggedIn: false }));
@@ -24,7 +20,7 @@ export default function Content() {
   return (
     <ContentWrapper>
         {isAuth ? <TodoApp/> : <Home/>}
-        {isAuth && <button onClick={handleLogOut}>LogOut</button>}
+        {isAuth && <LogOutButton onClick={handleLogOut} theme={theme}><UsergroupDeleteOutlined /></LogOutButton>}
     </ContentWrapper>
   )
 }

@@ -2,79 +2,11 @@ import React, { useState, useContext } from 'react';
 import { Button, Input, Upload } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { AuthContext } from '../context';
-import styled from 'styled-components';
 import { ThemeContext } from '../context';
-
-
-const StyledForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 100px;
-    align-items: center;
-    input {
-        width: 400px;
-        padding: 10px;
-        border: 1px solid ${({ theme }) => (theme === 'light' ? '#d9d9d9' : '#444')};
-        border-radius: 4px;
-        background-color: ${({ theme }) => (theme === 'light' ? 'white' : '#2c2c2e')};
-        color: ${({ theme }) => (theme === 'light' ? 'black' : 'white')};
-        font-size: 16px;
-        &::placeholder{
-            color: ${({ theme }) => (theme === 'light' ? 'black' : 'white')};
-            text-align: center;
-        }
-        &:focus {
-            border-color: white;
-            background-color: ${({ theme }) => (theme === 'light' ? 'white' : '#2c2c2e')};
-            outline: none;
-            box-shadow: 0 0 4px white;
-        }
-        &:hover {
-            border-color: white;
-            background-color: ${({ theme }) => (theme === 'light' ? 'white' : '#2c2c2e')};
-            outline: none;
-            box-shadow: 0 0 4px white;
-        }
-
-    }
-    button {
-        background-color: #9000FF;
-        color: white;
-        border: none;
-        padding: 10px 16px;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        /* margin-top: 20px; */
-        height: 35px;
-        width: 100%;
-
-        &:hover {
-            background-color: #7200cc;
-        }
-    }
-    .cancel__button {
-        background-color: ${({ theme }) => (theme === 'light' ? 'white' : '#2c2c2e')};
-        color: ${({ theme }) => (theme === 'light' ? 'black' : 'white')};
-        border: 1px solid ${({ theme }) => (theme === 'light' ? '#d9d9d9' : '#444')} !important; /* Совпадает с input */
-        border-radius: 4px;
-        padding: 10px 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-
-        &:hover {
-            border-color: white;
-            box-shadow: 0 0 4px white;
-        }
-    }
-`
+import { StyledForm } from './RegisterForm.styles';
 
 export default function RegisterForm({ onCancel }) {
     const { users, setUsers } = useContext(AuthContext);
-    console.log(users)
-
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [avatar, setAvatar] = useState(null);
@@ -86,7 +18,7 @@ export default function RegisterForm({ onCancel }) {
     const handleAvatarUpload = ({ file }) => {
         const reader = new FileReader();
         reader.onload = () => {
-            setAvatar(reader.result); // Store the Base64 string of the uploaded image
+            setAvatar(reader.result);
         };
         reader.readAsDataURL(file);
     };
@@ -96,7 +28,7 @@ export default function RegisterForm({ onCancel }) {
             setError('User already exists');
         } else if (login && password) {
             const newUser = { login, password, avatar };
-            setUsers([...users, newUser]); // Update users in context
+            setUsers([...users, newUser]);
             setSuccess(true);
             setError('');
         } else {
@@ -120,7 +52,7 @@ export default function RegisterForm({ onCancel }) {
                 onChange={(event) => setPassword(event.target.value)}
             />
             <Upload
-                beforeUpload={() => false} // Prevent automatic upload
+                beforeUpload={() => false}
                 onChange={handleAvatarUpload}
                 accept="image/*"
                 showUploadList={false}
