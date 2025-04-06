@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import RegisterForm from '../RegisterForm/RegisterForm'
 import LoginForm from '../LoginForm/LoginForm'
 import Typed from 'typed.js';
-import { ThemeContext, LanguageContext, LANGUAGES } from '../context';
-import {HomeContainer, Title} from './Home.styles'
+import {HomeContainer, Title} from './Home.styles';
+import { useSelector } from 'react-redux';
+import { LANGUAGES } from '../constants';
 
 export default function Home() {
     const [activePage, setActivePage] = useState(null)
     const title = useRef(null);
-    const { theme } = useContext(ThemeContext);
-    const {language, setLanguage} = useContext(LanguageContext);
     const typedInstance = useRef(null);
+    const theme = useSelector((state) => state.theme.theme);
+    const language = useSelector((state) => state.language.language);
     
 
     useEffect(() => {

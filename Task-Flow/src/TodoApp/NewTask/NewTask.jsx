@@ -1,27 +1,33 @@
-import React, { useContext, useState } from 'react'
-import { TodosContext, LANGUAGES, LanguageContext, ThemeContext } from '../../context'
+import React, { useState } from 'react'
 import { Button, Input } from "antd";
 import { ButtonWrapper, CustomSelect, CustomModal } from './NewTask.styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { addTodo } from '../../store/slices/todosSlice';
+import { LANGUAGES } from '../../constants';
 
 
 export default function NewTask() {
     const [value, setValue] = useState('');
-    const {addNewTodo} = useContext(TodosContext);
     const [status, setStatus] = useState(undefined);
     const [priority, setPriority] = useState(undefined);
-    const { language } = useContext(LanguageContext);
     const [modal2Open, setModal2Open] = useState(false);
-    const { theme } = useContext(ThemeContext);
+
+    const dispatch = useDispatch();
+    const theme = useSelector((state) => state.theme.theme);
+    const language = useSelector((state) => state.language.language);
+
 
     const handleSaveValue = () => {
       if (!value || !priority || !status) {
         return;
       }
-        addNewTodo(value, priority, status);
+        const newTodo = {id: uuidv4(), value, priority, status};
+        dispatch(addTodo(newTodo));
         setValue('');
         setPriority(undefined);
         setStatus(undefined);
-        setModal2Open(false)
+        setModal2Open(false);
     }
   return (
     <>

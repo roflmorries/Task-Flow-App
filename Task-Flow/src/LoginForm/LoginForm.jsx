@@ -1,16 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../context';
+import React, { useState } from 'react';
 import { Button, Input } from "antd";
-import { ThemeContext } from '../context';
-import {StyledForm} from './LoginForm.styles'
+import { StyledForm } from './LoginForm.styles'
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../store/slices/authSlice';
 
 export default function LoginForm() {
-    const { setIsAuth, users, setUsers } = useContext(AuthContext);
+    const dispatch = useDispatch();
+    const users = useSelector((state) => state.auth.users);
+    const theme = useSelector((state) => state.theme.theme);
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const {theme, setTheme} = useContext(ThemeContext);
 
     const handleLogin = () => {
         const userIndex = users.findIndex(user => user.login === login && user.password === password);
@@ -20,10 +21,8 @@ export default function LoginForm() {
                 ...user,
                 isLoggedIn: index === userIndex,
             }));
-            setUsers(updatedUsers);
             localStorage.setItem('users', JSON.stringify(updatedUsers));
-            setIsAuth(true);
-            localStorage.setItem('isAuth', true)
+            dispatch(setUser(users[userIndex]))
             setError('');
         } else {
             setError('Invalid username or password');

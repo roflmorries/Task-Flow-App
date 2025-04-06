@@ -1,10 +1,12 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App/App.jsx'
-import ThemeProvider from '../src/providers/ThemeProvider.jsx'
-import { ThemeContext } from './context';
+
+
 import { createGlobalStyle } from 'styled-components'
-import { useContext } from 'react';
+
+import { Provider, useSelector } from 'react-redux';
+import store from './store/store.js'
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -17,7 +19,7 @@ const GlobalStyles = createGlobalStyle`
   }
 `
 function Root() {
-    const { theme } = useContext(ThemeContext);
+    const theme = useSelector((state) => state.theme.theme);
     return (
       <>
         <GlobalStyles theme={theme} />
@@ -27,7 +29,7 @@ function Root() {
   }
 
 createRoot(document.getElementById('root')).render(
-    <ThemeProvider>
+  <Provider store={store}>
         <Root/>
-    </ThemeProvider>
+  </Provider>
 )

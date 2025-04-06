@@ -1,27 +1,32 @@
 import React from 'react'
-import { useContext, useEffect, useState } from 'react'
-import { LanguageContext, LANGUAGES, ThemeContext, THEMES } from '../context'
+import { useEffect, useState } from 'react'
 import { MoonFilled, UserOutlined } from '@ant-design/icons';
-import { Avatar, Space } from 'antd';
-import { AuthContext } from '../context'
+import { Avatar } from 'antd';
 import { SunFilled } from '@ant-design/icons';
-import {WrapperNav, NavBar, NavSettings, Content, StyledSwitch, StyledSelect} from './Nav.styles'
+import { WrapperNav, NavBar, NavSettings, Content, StyledSwitch, StyledSelect } from './Nav.styles'
+import {useDispatch, useSelector} from 'react-redux'
+import { setTheme } from '../store/slices/themeSlice'
+import { setLanguage } from '../store/slices/languageSlice'
+import { THEMES, LANGUAGES } from '../constants'
+
 
 
 
 export default function Nav() {
     const defaultClassName = 'navigation';
     const [className, setClassName] = useState(defaultClassName);
-    const {users, isAuth} = useContext(AuthContext)
-    const {theme, setTheme} = useContext(ThemeContext);
-    const {language, setLanguage} = useContext(LanguageContext);
+    const theme = useSelector((state) => state.theme.theme);
+    const language = useSelector((state) => state.language.language);
+    const isAuth = useSelector((state) => state.auth.user !== null);
+    const users = useSelector((state) => state.auth.users)
+    const dispatch = useDispatch();
 
     const handleLanguageChange = value => {
-        setLanguage(value)
+        dispatch(setLanguage(value))
     }
 
     const handleChangeTheme = checked => {
-        setTheme(checked ? THEMES.LIGHT : THEMES.DARK)
+        dispatch(setTheme(theme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT))
     }
 
     const CurrentUser = isAuth ? users.find(user => user.isLoggedIn) : null;

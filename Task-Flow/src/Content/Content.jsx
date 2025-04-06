@@ -1,20 +1,22 @@
 import React, { useContext } from 'react'
-import { AuthContext } from '../context'
 import TodoApp from '../TodoApp/TodoApp'
 import Home from '../Home/Home'
 import {UsergroupDeleteOutlined} from '@ant-design/icons';
-import { ThemeContext } from '../context'
-import { ContentWrapper, LogOutButton } from './Content.styles'
+import { ContentWrapper, LogOutButton } from './Content.styles';
+import { setUser, logOut } from '../store/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Content() {
-    const { setIsAuth, isAuth, users, setUsers } = useContext(AuthContext);
-    const { theme } = useContext(ThemeContext);
+    const dispatch = useDispatch();
+    const isAuth = useSelector((state) => state.auth.user !== null);
+    const users = useSelector((state) => state.auth.users);
+    const theme = useSelector((state) => state.theme.theme);
 
     const handleLogOut = () => {
       const updatedUsers = users.map(user => ({ ...user, isLoggedIn: false }));
-      setUsers(updatedUsers);
       localStorage.setItem('users', JSON.stringify(updatedUsers));
-      setIsAuth(false);
+      dispatch(logOut());
+      dispatch(setUser(null));
       localStorage.setItem('isAuth', false);
   }
   return (

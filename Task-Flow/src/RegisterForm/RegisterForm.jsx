@@ -1,18 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Button, Input, Upload } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
-import { AuthContext } from '../context';
-import { ThemeContext } from '../context';
 import { StyledForm } from './RegisterForm.styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from '../store/slices/authSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function RegisterForm({ onCancel }) {
-    const { users, setUsers } = useContext(AuthContext);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [avatar, setAvatar] = useState(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
-    const {theme, setTheme} = useContext(ThemeContext);
+    const dispatch = useDispatch();
+    const users = useSelector((state) => state.auth.users);
+    const theme = useSelector((state) => state.theme.theme);
     
 
     const handleAvatarUpload = ({ file }) => {
@@ -27,8 +29,8 @@ export default function RegisterForm({ onCancel }) {
         if (users.some(user => user.login === login)) {
             setError('User already exists');
         } else if (login && password) {
-            const newUser = { login, password, avatar };
-            setUsers([...users, newUser]);
+            const newUser = { id: uuidv4(), login, password, avatar, isLoggedIn: false };
+            dispatch(addUser(newUser));
             setSuccess(true);
             setError('');
         } else {

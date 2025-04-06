@@ -1,38 +1,41 @@
-import React, { useContext, useState } from 'react'
-import { TodosContext, LANGUAGES, LanguageContext } from '../../context'
+import React, { useState } from 'react'
 import { Button, Input, Select, Popconfirm } from 'antd';
 import { TaskContainer, TasksContainer, ButtonContainer, EditButton } from './TasksList.styles';
-import { ThemeContext } from '../../context';
+import { useDispatch, useSelector } from 'react-redux';
+import { editTodo, removeTodo } from '../../store/slices/todosSlice';
+import { LANGUAGES } from '../../constants';
 
 
 
 export default function TasksList() {
-  const {todos, editTodo, deleteTodo} = useContext(TodosContext);
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingID, setEditingID] = useState(null);
   const [editValue, setEditValue] = useState('');
   const [editPriority, setEditPriority] = useState('');
   const [editStatus, setEditStatus] = useState('');
-  const { language } = useContext(LanguageContext);
-  const { theme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
+  const language = useSelector((state) => state.language.language);
+  const todos = useSelector((state) => state.todos.todos)
 
-  const handleEditTask = (index, todo) => {
-    setEditingIndex(index);
+
+  const handleEditTask = (todo) => {
+    setEditingID(todo.id);
     setEditValue(todo.value);
     setEditPriority(todo.priority);
     setEditStatus(todo.status);
   }
 
-  const handleSaveTask = index => {
-    const updatedTodo = { value: editValue, priority: editPriority, status: editStatus };
-    editTodo(index, updatedTodo);
-    setEditingIndex(null);
+  const handleSaveTask = () => {
+    const updatedTodo = { id: editingID ,value: editValue, priority: editPriority, status: editStatus };
+    dispatch(editTodo(updatedTodo))
+    setEditingID(null);
     setEditValue('');
     setEditPriority('');
     setEditStatus('');
   }
 
-  const handleDeleteTask = index => {
-    deleteTodo(index)
+  const handleDeleteTask = id => {
+    dispatch(removeTodo(id));
   }
 
   return (
@@ -43,9 +46,9 @@ export default function TasksList() {
           {language === LANGUAGES.EN.value ? "No tasks available. Add a new task!" : "Нет задач. Добавьте новую задачу!"}
         </p>
       ) : (
-      todos.map((todo, index) => 
-      <TaskContainer theme={theme} key={index}>
-      {editingIndex === index ? (
+      todos.map((todo) => 
+      <TaskContainer theme={theme} key={todo.id}>
+      {editingID === todo.id ? (
         <>
           <Input 
             value={editValue} 
@@ -59,9 +62,9 @@ export default function TasksList() {
             placeholder="Priority"
             className='edit__select'
           >
-            <Option value="High">{language === LANGUAGES.EN.value ? "High" : "Высокий"}</Option>
-            <Option value="Medium">{language === LANGUAGES.EN.value ? "Medium" : "Средний"}</Option>
-            <Option value="Low">{language === LANGUAGES.EN.value ? "Low" : "Низкий"}</Option>
+            <Select.Option value="High">{language === LANGUAGES.EN.value ? "High" : "Высокий"}</Select.Option>
+            <Select.Option value="Medium">{language === LANGUAGES.EN.value ? "Medium" : "Средний"}</Select.Option>
+            <Select.Option value="Low">{language === LANGUAGES.EN.value ? "Low" : "Низкий"}</Select.Option>
           </Select>
           <Select 
             value={editStatus} 
@@ -69,13 +72,13 @@ export default function TasksList() {
             placeholder="Status"
             className='edit__select'
           >
-            <Option value="Pending">{language === LANGUAGES.EN.value ? "Pending" : "Ожидание"}</Option>
-            <Option value="In Progress">{language === LANGUAGES.EN.value ? "In Progress" : "В процессе"}</Option>
-            <Option value="Completed">{language === LANGUAGES.EN.value ? "Completed" : "Выполнено"}</Option>
+            <Select.Option value="Pending">{language === LANGUAGES.EN.value ? "Pending" : "Ожидание"}</Select.Option>
+            <Select.Option value="In Progress">{language === LANGUAGES.EN.value ? "In Progress" : "В процессе"}</Select.Option>
+            <Select.Option value="Completed">{language === LANGUAGES.EN.value ? "Completed" : "Выполнено"}</Select.Option>
           </Select>
           <div className='edit-buttons__container'>
-          <Button className='edit__buttons' onClick={() => handleSaveTask(index)}>Save</Button>
-          <Button className='edit__buttons' onClick={() => setEditingIndex(null)}>Cancel</Button>
+          <Button className='edit__buttons' onClick={() => handleSaveTask(todo)}>Save</Button>
+          <Button className='edit__buttons' onClick={() => setEditingID(null)}>Cancel</Button>
           </div>
         </>
       ) : (
@@ -86,11 +89,11 @@ export default function TasksList() {
             <p><strong>{language === LANGUAGES.EN.value ? "Status" : "Статус"}:</strong> {todo.status}</p>
           </div>
           <ButtonContainer>
-            <EditButton theme={theme} className='edit__button' onClick={() => handleEditTask(index, todo)}>{language === LANGUAGES.EN.value ? "Edit" : "Изменить"}</EditButton>
+            <EditButton theme={theme} className='edit__button' onClick={() => handleEditTask(todo)}>{language === LANGUAGES.EN.value ? "Edit" : "Изменить"}</EditButton>
             <Popconfirm
                         title={language === LANGUAGES.EN.value ? "Delete the taks" : "Удалить задачу"}
                         description={language === LANGUAGES.EN.value ? "Are you sure you want to delete this task?" : "Вы уверенны что хотите удалить задачу?"}
-                        onConfirm={() => handleDeleteTask(index)}
+                        onConfirm={() => handleDeleteTask(todo.id)}
                         okText={language === LANGUAGES.EN.value ? "Yes" : "Да"}
                         cancelText={language === LANGUAGES.EN.value ? "No" : "Нет"}
                         
