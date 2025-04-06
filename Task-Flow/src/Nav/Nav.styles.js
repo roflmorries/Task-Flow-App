@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Switch, Select } from 'antd';
-import { THEMES } from '../context';
+import { THEMES } from '../constants';
 
 export const WrapperNav = styled.nav`
     .navigation-light {

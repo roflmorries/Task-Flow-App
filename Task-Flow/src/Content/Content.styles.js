@@ -4,7 +4,7 @@ import { Button } from 'antd';
 export const ContentWrapper = styled.div`
   max-width: 1250px;
   margin: 0 auto;
-  height: 91vh !important;
+  height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
